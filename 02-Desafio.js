@@ -1,25 +1,31 @@
 const fs = require('fs');
 const path = require('path');
 
-const archivo = 'productos.json'
+class Container {
+    fileName
+    constructor (fileName){
+        this.fileName = fileName
+    }
 
-const obtenerProductos = async () => {
-    const data = await fs.promises.readFile(archivo, 'utf-8')
+
+obtenerProductos = async () => {
+    const data = await fs.promises.readFile(this.fileName, 'utf-8')
     return JSON.parse(data);
+    
 }
 
-const guardarProductos = async (productos) => {
+guardarProductos = async (productos) => {
     const data = JSON.stringify(productos, null, '\t')
-    await fs.promises.writeFile(archivo, data)
+    await fs.promises.writeFile(this.fileName, data)
 };
 
-const getAll = async () =>{
-    const productos = await obtenerProductos();
+getAll = async () =>{
+    const productos = await this.obtenerProductos();
     return productos;
 }
 
-const getById = async (idBuscado) => {
-    const productos = await obtenerProductos();
+getById = async (idBuscado) => {
+    const productos = await this.obtenerProductos();
     const indice = productos.findIndex((producto) => producto.id === idBuscado);
     if(indice < 0){
         throw new Error('No existe el producto seleccionado')
@@ -27,7 +33,7 @@ const getById = async (idBuscado) => {
     return productos[indice];
 }
 
-const save = async (data) => {
+save = async (data) => {
     if(!data.title || !data.price || typeof data.title !== 'string' || typeof data.price !== 'number') throw new Error('Datos invalidos');
     const productos = await obtenerProductos();
     
@@ -43,8 +49,7 @@ const save = async (data) => {
     productos.push(nuevoProducto);
     await guardarProductos(productos)
 }
-
-const deleteById = async (idBuscado) => {
+deleteById = async (idBuscado) => {
     const productos = await obtenerProductos();
 
     const indice = productos.findIndex((producto) => producto.id === idBuscado);
@@ -55,9 +60,12 @@ const deleteById = async (idBuscado) => {
     productos.splice(indice,1);
     await guardarProductos(productos);
 }
-
-const deleteAll = async () =>{
+deleteAll = async () =>{
     await guardarProductos([]);
 }
+}
+let productos1 = new Container('productos.json')
+productos1.getAll();
 
 
+// si pones un console.log dentro del metodo getAll si muestras los productos pero creo que deberia traerlos sin necesidad de eso

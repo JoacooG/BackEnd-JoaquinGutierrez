@@ -35,7 +35,7 @@ getById = async (idBuscado) => {
 
 save = async (data) => {
     if(!data.title || !data.price || typeof data.title !== 'string' || typeof data.price !== 'number') throw new Error('Datos invalidos');
-    const productos = await obtenerProductos();
+    const productos = await this.obtenerProductos();
     
     let id = 1;
     if(productos.lenght){
@@ -47,10 +47,10 @@ save = async (data) => {
         id: id
     }
     productos.push(nuevoProducto);
-    await guardarProductos(productos)
+    await this.guardarProductos(productos)
 }
 deleteById = async (idBuscado) => {
-    const productos = await obtenerProductos();
+    const productos = await this.obtenerProductos();
 
     const indice = productos.findIndex((producto) => producto.id === idBuscado);
 
@@ -58,14 +58,29 @@ deleteById = async (idBuscado) => {
         return;
     }
     productos.splice(indice,1);
-    await guardarProductos(productos);
+    await this.guardarProductos(productos);
 }
 deleteAll = async () =>{
-    await guardarProductos([]);
+    await this.guardarProductos([]);
 }
 }
+
 let productos1 = new Container('productos.json')
-productos1.getAll();
+const main = async () =>{
+    const productos = await productos1.getAll();
+    console.log(productos);
 
+    const nuevoProducto = {title: 'Lost Ark', price: 3000};
+    await productos1.save(nuevoProducto);
+    console.log(await productos1.getAll());
 
-// si pones un console.log dentro del metodo getAll si muestras los productos pero creo que deberia traerlos sin necesidad de eso
+    const productoId = await productos1.getById(3);
+    console.log(productoId);
+
+    const borrarId = await productos1.deleteById(3);
+    console.log(await productos1.getAll());
+
+    const borrarTodo = await productos1.deleteAll();
+    console.log(await productos1.getAll());
+}
+main();

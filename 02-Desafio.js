@@ -36,10 +36,9 @@ getById = async (idBuscado) => {
 save = async (data) => {
     if(!data.title || !data.price || typeof data.title !== 'string' || typeof data.price !== 'number') throw new Error('Datos invalidos');
     const productos = await this.obtenerProductos();
-    
     let id = 1;
-    if(productos.lenght){
-        id = productos[productos.lenght -1].id +1
+    if(productos.length){
+        id = productos[productos.length -1].id +1
     }
     const nuevoProducto = {
         title: data.title,
@@ -80,10 +79,10 @@ const main = async () =>{
     const productoId = await productos1.getById(3);
     console.log(productoId);
 
-    const borrarId = await productos1.deleteById(3);
+    await productos1.deleteById(3);
     console.log(await productos1.getAll());
 
-    const borrarTodo = await productos1.deleteAll();
+    await productos1.deleteAll();
     console.log(await productos1.getAll());
 }
 main();

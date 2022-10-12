@@ -67,7 +67,7 @@ deleteAll = async () =>{
 
 // LLAMADO A LOS METODOS //
 
-let productos1 = new Container('productos.json')
+/* let productos1 = new Container('productos.json')
 const main = async () =>{
     const productos = await productos1.getAll();
     console.log(productos);
@@ -85,4 +85,4 @@ const main = async () =>{
     await productos1.deleteAll();
     console.log(await productos1.getAll());
 }
-main();
+main(); */

@@ -1,0 +1,17 @@
+[
+	{
+		"title": "Battlefield",
+		"price": 7000,
+		"id": 1
+	},
+	{
+		"title": "Call of duty",
+		"price": 9000,
+		"id": 2
+	},
+	{
+		"title": "World of Warcraft",
+		"price": 5000,
+		"id": 3
+	}
+]

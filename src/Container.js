@@ -53,13 +53,29 @@ class Container {
         const indice = productos.findIndex((producto) => producto.id === idBuscado);
 
         if(indice < 0){
-            return;
+            throw new Error('No existe el producto seleccionado')
+            
         }
         productos.splice(indice,1);
         await this.guardarProductos(productos);
     }
     deleteAll = async () =>{
         await this.guardarProductos([]);
+    }
+    updateProduct = async (idBuscado, dataModificada) =>{
+        try {
+            const productos = await this.getAll()
+            const indice = productos.findIndex((producto) => producto.id === idBuscado);
+            const productoModificado = {
+                ...productos[indice],
+                ...dataModificada
+            }
+            productos[indice] = productoModificado
+            await this.guardarProductos(productos)
+        } catch (error) {
+            throw error
+            }
+        
     }
 }
 

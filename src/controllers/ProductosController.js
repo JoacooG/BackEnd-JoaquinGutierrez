@@ -38,8 +38,10 @@ class ProductosController {
       const container = new Container("src/database/productos.json")
     const nuevoProducto = {
       title: req.body.title,
-      price: req.body.price
+      price: Number(req.body.price)
+      
   }
+  console.log(req)
    await container.save(nuevoProducto)
     
     res.status(201).json({
@@ -64,7 +66,6 @@ class ProductosController {
       if(req.body.price){
         nuevaDataProducto.price = req.body.price
       }
-      console.log(nuevaDataProducto)
       await container.updateProduct(Number(idProducto), nuevaDataProducto)
       
       

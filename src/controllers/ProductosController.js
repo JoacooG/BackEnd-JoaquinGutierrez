@@ -5,9 +5,8 @@ class ProductosController {
     const container = new Container("src/database/productos.json")
 
     const productos = await container.getAll()
-    
 
-    res.status(200).json({ productos })
+    res.render('productos', {productos})
   }
 
   static productoRandom = async (req, res) => {
@@ -41,17 +40,12 @@ class ProductosController {
       price: Number(req.body.price)
       
   }
-  console.log(req)
    await container.save(nuevoProducto)
     
-    res.status(201).json({
-      msg: 'El producto se creo correctamente'
-    })
+    res.redirect(301, 'http://localhost:8080/api/')
       
     } catch (error) {
-      res.status(400).json({
-        msg: 'Datos invalidos: Title debe ser un string y Price un number'
-      })
+     res.redirect(301,'http://localhost:8080/api/?resultado=error')
     }
     
   }
